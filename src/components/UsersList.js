@@ -1,0 +1,34 @@
+import { useEffect, useState } from 'react';
+import { getUsers } from '../services/userService';
+
+const UsersList = () => {
+    const [users, setUsers] = useState([]);
+  
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const data = await getUsers();
+          setUsers(data);
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      };
+  
+      fetchUsers();
+    }, []);
+  
+    return (
+      <div>
+        <h2>Lista de Usuarios</h2>
+        <ul>
+          {users.map(user => (
+            <li key={user.user_id}>
+              {user.name} - {user.email}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+  
+  export default UsersList;
